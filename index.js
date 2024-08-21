@@ -2,15 +2,18 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { userRouter } from './routers/user.js';
-import prisma from './prisma.js';
+import prisma from './libs/prisma.js';
+
 
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 // Define a simple route
 app.get('/', (req, res) => {
@@ -18,8 +21,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter)
-// Start the server
-const PORT = process.env.PORT || 3000;
+
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -8,10 +8,10 @@ CREATE TYPE "UserGender" AS ENUM ('Male', 'Female', 'Other');
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "phone" INTEGER NOT NULL,
+    "phone" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "status" "UserStatus" NOT NULL,
+    "status" "UserStatus" NOT NULL DEFAULT 'Pending',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
