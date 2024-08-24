@@ -26,6 +26,28 @@ router.post('/register', async (req, res) => {
     }
 })
 
+router.post('/login', async (req, res) => {
+    try {
+        console.log(req.body);
+
+        const { email, password } = req.body;
+        const isValid = email && password
+
+        if (!isValid) return res.status(400).send("Bad request.");
+
+        const user = await prisma.user.findFirst({
+            where: { email }
+        });
+
+        const secret = "s!c#1$G9";
+        const token = jwt.sign(user, secret);
+
+        res.status(200).json(token);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+})
+
 router.post('/verify', async (req, res) => {
     try {
         const { authUserId, idType, idNo, gender, dob, frontIDImg, backIDImg, country, city, postalCode } = req.body
