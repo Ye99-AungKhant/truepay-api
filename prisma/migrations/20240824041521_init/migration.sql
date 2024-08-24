@@ -24,9 +24,14 @@ CREATE TABLE "UserVerify" (
     "gender" "UserGender" NOT NULL,
     "address" TEXT NOT NULL,
     "dob" TIMESTAMP(3) NOT NULL,
-    "nrc" TEXT NOT NULL,
-    "nrcUrl" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "id_type" TEXT NOT NULL,
+    "id_no" TEXT NOT NULL,
+    "front_id_url" TEXT NOT NULL,
+    "back_id_url" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "postal_code" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -37,4 +42,4 @@ CREATE TABLE "UserVerify" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "UserVerify" ADD CONSTRAINT "UserVerify_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserVerify" ADD CONSTRAINT "UserVerify_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
