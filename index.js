@@ -7,7 +7,6 @@ import prisma from './libs/prisma.js';
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -15,7 +14,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-// Define a simple route
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
@@ -23,14 +21,13 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter)
 
 const PORT = 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
 const gracefulShutdown = async () => {
     await prisma.$disconnect();
     server.close(() => {
-        console.log("Yaycha API closed.");
         process.exit(0);
     });
 };
