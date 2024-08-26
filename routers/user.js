@@ -97,12 +97,13 @@ router.get('/profile/:id', async (req, res) => {
 })
 
 router.patch('/profile', async (req, res) => {
+    console.log(req.body);
+
     try {
         const { id, profile_url } = req.body
         const profileData = await prisma.user.update({
             where: { id },
             data: { profile_url },
-            select: { profile_url }
         })
         console.log(profileData);
 
