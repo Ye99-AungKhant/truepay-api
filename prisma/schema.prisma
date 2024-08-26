@@ -29,7 +29,7 @@ model UserVerify {
   id           Int        @id @default(autoincrement())
   gender       UserGender
   address      String
-  dob          DateTime
+  dob          String
   id_type      String
   id_no        String
   front_id_url String

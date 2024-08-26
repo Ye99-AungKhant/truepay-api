@@ -23,7 +23,7 @@ CREATE TABLE "UserVerify" (
     "id" SERIAL NOT NULL,
     "gender" "UserGender" NOT NULL,
     "address" TEXT NOT NULL,
-    "dob" TIMESTAMP(3) NOT NULL,
+    "dob" TEXT NOT NULL,
     "id_type" TEXT NOT NULL,
     "id_no" TEXT NOT NULL,
     "front_id_url" TEXT NOT NULL,
