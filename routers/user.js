@@ -81,4 +81,19 @@ router.post('/verify', async (req, res) => {
     }
 })
 
+router.get('/profile/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const profileData = await prisma.user.findFirst({
+            where: { id: parseInt(id) },
+            include: { userverify: true }
+        })
+        console.log(profileData);
+
+        res.status(200).json(profileData)
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+})
+
 export { router as userRouter };
