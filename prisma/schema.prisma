@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  name       String
-  phone      String
-  email      String       @unique
-  password   String
-  status     UserStatus   @default(Pending)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  userverify UserVerify[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  phone       String
+  email       String       @unique
+  password    String
+  status      UserStatus   @default(Pending)
+  profile_url String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userverify  UserVerify[]
 }
 
 model UserVerify {
