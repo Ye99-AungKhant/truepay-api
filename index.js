@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { userRouter } from './routers/user.js';
 import prisma from './libs/prisma.js';
+import { userRouter } from './routers/user.js';
+import { transferRouter } from './routers/transfer.js';
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter)
+app.use('/transfer', transferRouter)
 
 const PORT = 3000;
 const server = app.listen(PORT, () => {
