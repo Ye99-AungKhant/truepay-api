@@ -14,16 +14,19 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  name        String
-  phone       String
-  email       String       @unique
-  password    String
-  status      UserStatus   @default(Pending)
-  profile_url String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userverify  UserVerify[]
+  id                   Int               @id @default(autoincrement())
+  name                 String
+  phone                String
+  email                String            @unique
+  password             String
+  status               UserStatus        @default(Pending)
+  profile_url          String?
+  balance              Int               @default(0)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  userverify           UserVerify[]
+  sent_transaction     UserTransaction[] @relation("Sender")
+  received_transaction UserTransaction[] @relation("Recipient")
 }
 
 model UserVerify {
@@ -42,6 +45,18 @@ model UserVerify {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   user         User       @relation(fields: [user_id], references: [id])
+}
+
+model UserTransaction {
+  id                Int      @id @default(autoincrement())
+  transactionId     String
+  sender_user_id    Int
+  recipient_user_id Int
+  amount            Int
+  note              String?
+  sender            User     @relation("Sender", fields: [sender_user_id], references: [id])
+  recipient         User     @relation("Recipient", fields: [recipient_user_id], references: [id])
+  createdAt         DateTime @default(now())
 }
 
 enum UserStatus {
