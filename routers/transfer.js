@@ -31,12 +31,23 @@ router.get('/check/:phone', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { senderId, recipientId, amount, note } = req.body
+        const { password, senderId, recipientId, amount, note } = req.body
         console.log(req.body);
         const senderIdInt = parseInt(senderId)
         const recipientIdInt = parseInt(recipientId)
         const amountInt = parseInt(amount)
         console.log('trans', senderIdInt, recipientIdInt, amountInt);
+
+        const passwordCheck = await prisma.user.findFirst({
+            where: {
+                id: { equals: senderIdInt },
+                password: { equals: password }
+            }
+        })
+
+        if (!passwordCheck) {
+            return res.status(400).json({ message: 'Your password is not match. Please try again.' })
+        }
 
         const [sender, recipient] = await prisma.$transaction([
             prisma.user.findFirst({
