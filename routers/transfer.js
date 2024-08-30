@@ -110,16 +110,18 @@ router.get('/history/:id', async (req, res) => {
                 sender: {
                     select: {
                         name: true,
+                        phone: true
                     },
                 },
                 recipient: {
                     select: {
                         name: true,
+                        phone: true
                     },
                 }
             },
             orderBy: [
-                { createdAt: 'asc' }
+                { createdAt: 'desc' }
             ]
         })
 
