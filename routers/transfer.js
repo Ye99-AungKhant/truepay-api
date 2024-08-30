@@ -105,7 +105,22 @@ router.get('/history/:id', async (req, res) => {
                     { sender_user_id: parseInt(id) },
                     { recipient_user_id: parseInt(id) },
                 ]
-            }
+            },
+            include: {
+                sender: {
+                    select: {
+                        name: true,
+                    },
+                },
+                recipient: {
+                    select: {
+                        name: true,
+                    },
+                }
+            },
+            orderBy: [
+                { createdAt: 'asc' }
+            ]
         })
 
         res.status(200).json(transactions)
