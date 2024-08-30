@@ -96,7 +96,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/history/:id', async (req, res) => {
     try {
         const { id } = req.params
         const transactions = await prisma.userTransaction.findMany({
