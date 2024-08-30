@@ -19,7 +19,7 @@ model User {
   phone                String
   email                String            @unique
   password             String
-  status               UserStatus        @default(Pending)
+  status               UserStatus        @default(Unverified)
   profile_url          String?
   balance              Int               @default(0)
   createdAt            DateTime          @default(now())
@@ -60,8 +60,8 @@ model UserTransaction {
 }
 
 enum UserStatus {
+  Unverified
   Pending
-  UnderVerified
   Verified
 }
 
