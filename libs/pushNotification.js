@@ -1,4 +1,4 @@
-import Expo from "expo-server-sdk";
+import { Expo } from "expo-server-sdk";
 const expo = new Expo();
 
 const handlePushTokens = ({ expoPushToken }) => {
