@@ -1,5 +1,5 @@
-import { Expo } from "expo-server-sdk";
-const expo = new Expo();
+import { Expo } from 'expo-server-sdk'
+let expo = new Expo();
 
 const handlePushTokens = ({ expoPushToken }) => {
     const body = 'Received a new transaction'
