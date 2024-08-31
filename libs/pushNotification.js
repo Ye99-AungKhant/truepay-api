@@ -2,6 +2,8 @@ import { Expo } from 'expo-server-sdk'
 let expo = new Expo();
 
 const handlePushTokens = ({ expoPushToken }) => {
+    console.log('expoPushToken of server', expoPushToken);
+
     const body = 'Received a new transaction'
     let notifications = [];
     if (!Expo.isExpoPushToken(expoPushToken)) {
