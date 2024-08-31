@@ -8,13 +8,13 @@ router.post('/register', async (req, res) => {
     try {
         console.log(req.body);
 
-        const { name, phone, email, password } = req.body;
-        const isValid = name && phone && email && password
+        const { name, phone, email, password, expoPushToken } = req.body;
+        const isValid = name && phone && email && password && expoPushToken
 
         if (!isValid) return res.status(400).send("Bad request.");
 
         const user = await prisma.user.create({
-            data: { name, phone, email, password },
+            data: { name, phone, email, password, expoPushToken },
         });
 
         const secret = "s!c#1$G9";
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
     try {
         console.log(req.body);
 
-        const { email, password } = req.body;
+        const { email, password, expoPushToken } = req.body;
         const isValid = email && password
 
         if (!isValid) return res.status(400).send("Bad request.");
@@ -39,10 +39,17 @@ router.post('/login', async (req, res) => {
             where: { email }
         });
 
+        if (!user) return res.status(400).json("Your credentials do not match")
+
+        const userUpdate = await prisma.user.update({
+            where: { email },
+            data: { expoPushToken }
+        })
         const secret = "s!c#1$G9";
-        const token = jwt.sign(user, secret);
+        const token = jwt.sign(userUpdate, secret);
 
         res.status(200).json(token);
+
     } catch (error) {
         res.status(500).json({ error });
     }
