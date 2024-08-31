@@ -64,7 +64,7 @@ router.post('/verify', async (req, res) => {
                 id: authUserId,
             },
             data: {
-                status: 'Unverified',
+                status: 'Pending',
             },
         })
         console.log('checkUser', checkUser);
