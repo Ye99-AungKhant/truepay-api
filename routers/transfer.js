@@ -87,6 +87,7 @@ router.post('/', async (req, res) => {
                     data: { balance: recipientBalanceUpdate }
                 }),
             ])
+            console.log('recipientExpoPushToken', recipient.expoPushToken);
 
             handlePushTokens(recipient.expoPushToken)
 
