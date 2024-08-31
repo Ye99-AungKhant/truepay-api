@@ -89,7 +89,7 @@ router.post('/', async (req, res) => {
             ])
             console.log('recipientExpoPushToken', recipient.expoPushToken);
 
-            handlePushTokens(recipient.expoPushToken)
+            handlePushTokens({ expoPushToken: recipient.expoPushToken })
 
             return res.status(200).json(createTransaction)
         }
