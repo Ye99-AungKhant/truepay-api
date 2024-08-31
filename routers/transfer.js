@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken"
 import prisma from "../libs/prisma.js";
+import handlePushTokens from "../libs/pushNotification.js";
 
 const router = express.Router()
 function generateUniqueCode() {
@@ -56,7 +57,7 @@ router.post('/', async (req, res) => {
             }),
             prisma.user.findFirst({
                 where: { id: recipientIdInt },
-                select: { id: true, balance: true }
+                select: { id: true, balance: true, expoPushToken: true }
             })
         ])
         console.log('sender', sender);
@@ -86,6 +87,8 @@ router.post('/', async (req, res) => {
                     data: { balance: recipientBalanceUpdate }
                 }),
             ])
+
+            handlePushTokens(recipient.expoPushToken)
 
             return res.status(200).json(createTransaction)
         }
