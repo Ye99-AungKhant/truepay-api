@@ -64,7 +64,7 @@ router.post('/verify', async (req, res) => {
                 id: authUserId,
             },
             data: {
-                status: 'UnderVerified',
+                status: 'Unverified',
             },
         })
         console.log('checkUser', checkUser);
