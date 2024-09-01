@@ -89,7 +89,7 @@ router.post('/', async (req, res) => {
             ])
             console.log('recipientExpoPushToken', recipient.expoPushToken);
 
-            handlePushTokens({ expoPushToken: recipient.expoPushToken })
+            handlePushTokens({ expoPushToken: recipient.expoPushToken, transactionId: createTransaction.transactionId })
 
             return res.status(200).json(createTransaction)
         }
@@ -139,7 +139,21 @@ router.get('/transaction-id/:transaction_id', async (req, res) => {
     try {
         const { transaction_id } = req.params
         const transaction = await prisma.userTransaction.findFirst({
-            where: { transactionId: transaction_id }
+            where: { transactionId: transaction_id },
+            include: {
+                sender: {
+                    select: {
+                        name: true,
+                        phone: true
+                    },
+                },
+                recipient: {
+                    select: {
+                        name: true,
+                        phone: true
+                    },
+                }
+            },
         })
 
         res.status(200).json(transaction)

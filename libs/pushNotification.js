@@ -1,7 +1,7 @@
 import { Expo } from 'expo-server-sdk'
 let expo = new Expo();
 
-const handlePushTokens = ({ expoPushToken }) => {
+const handlePushTokens = ({ expoPushToken, transactionId }) => {
     console.log('expoPushToken of server', expoPushToken);
 
     const body = 'Received a new transaction'
@@ -15,7 +15,7 @@ const handlePushTokens = ({ expoPushToken }) => {
         sound: "default",
         title: 'True Pay',
         body: body,
-        data: { body }
+        data: { transactionId }
     });
 
     let chunks = expo.chunkPushNotifications(notifications);
