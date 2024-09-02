@@ -1,5 +1,8 @@
 import { Expo } from 'expo-server-sdk'
-let expo = new Expo();
+let expo = new Expo({
+    accessToken: process.env.EXPO_ACCESS_TOKEN,
+    useFcmV1: true
+});
 
 const handlePushTokens = ({ expoPushToken, transactionId }) => {
     console.log('expoPushToken of server', expoPushToken);
