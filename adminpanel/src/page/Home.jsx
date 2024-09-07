@@ -15,7 +15,7 @@ const Home = () => {
         const response = await fetch(`https://truepay-api.onrender.com/admin`);
         return response.json();
     };
-    const { data, isLoading, error } = useQuery(['userDetail', currentPage], () => fetchTransactionData(currentPage));
+    const { data, isLoading, error } = useQuery(['homeData', currentPage], () => fetchTransactionData(currentPage));
     if (data) {
         console.log('data', data);
 

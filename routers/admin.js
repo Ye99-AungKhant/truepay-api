@@ -175,5 +175,14 @@ router.get('/userdetail/:userId', async (req, res) => {
     res.status(200).json({ transaction, totalPages })
 })
 
+router.patch('/userVerify', async (req, res) => {
+    const userId = req.body
+    const user = await prisma.user.update({
+        where: { id: Number(userId) },
+        data: { status: 'Verified' }
+    })
+    res.status(200).json(user)
+})
+
 
 export { router as adminRouter };

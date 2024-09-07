@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../style/page.css'
 import defaultUser from '../image/user.png'
 import Pagination from '../component/Pagination'
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation } from 'react-router-dom';
 
 const UserDetail = () => {
@@ -21,6 +21,24 @@ const UserDetail = () => {
 
     }
     if (isLoading) return <div>Loading...</div>;
+
+    const userVerify = useMutation(async (data) => {
+        return await fetch(`https://truepay-api.onrender.com/admin/userverified`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+    }, {
+        onError: async (e) => {
+            console.log(e);
+        },
+        onSuccess: async (data) => { }
+    })
+    const handleUserConfirm = () => {
+        userVerify(user.id)
+    }
 
     return (
         <main className='main-container'>
@@ -57,6 +75,11 @@ const UserDetail = () => {
                                 </tr>
                             </tbody>
                         </table>
+                        <button style={{ border: 'none', backgroundColor: 'green', color: 'white', borderRadius: 10, cursor: 'pointer' }}
+                            onClick={handleUserConfirm}
+                        >
+                            Confirm
+                        </button>
                     </div>
                 </div>
                 <div className="userDetail-body ">
