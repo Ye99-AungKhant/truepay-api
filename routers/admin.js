@@ -68,10 +68,38 @@ router.get('/', async (req, res) => {
         averageAmount: hourlyTransactions[hour].totalAmount / hourlyTransactions[hour].count,
     }));
 
+    let monthlyTransactions = [];
+
+    // Loop through the last 12 months
+    for (let i = 0; i < 12; i++) {
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() - i + 1, 0); // last day of the month
+
+        // Get transaction sum for each month
+        const totalTransactionForMonth = await prisma.userTransaction.aggregate({
+            _sum: {
+                amount: true,
+            },
+            where: {
+                createdAt: {
+                    gte: startOfMonth,
+                    lte: endOfMonth,
+                },
+            },
+        });
+
+        // Store the result in an array
+        monthlyTransactions.push({
+            month: startOfMonth.toLocaleString('default', { month: 'long' }), // Month name
+            year: startOfMonth.getFullYear(),
+            totalAmount: totalTransactionForMonth._sum.amount || 0, // Handle null sums
+        });
+    }
+
     const totalTodayTransactions = todayTransactions.length
     const totalPendingUser = pendingUser.length
 
-    res.status(200).json({ totalUser, totalTransactionForMonth, totalPendingUser, totalTodayTransactions, todayAverageTransactionForChart })
+    res.status(200).json({ totalUser, totalTransactionForMonth, totalPendingUser, totalTodayTransactions, todayAverageTransactionForChart, monthlyTransactions })
 })
 
 router.get('/transactions', async (req, res) => {
