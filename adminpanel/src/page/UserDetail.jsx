@@ -1,11 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../style/page.css'
 import defaultUser from '../image/user.png'
 import Pagination from '../component/Pagination'
 import { useQuery } from "react-query";
+import { useLocation } from 'react-router-dom';
 
 const UserDetail = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const location = useLocation();
+    const { user } = location.state || {};
+    console.log('user', user);
 
+    const fetchTransferData = async (page) => {
+        const response = await fetch(`https://truepay-api.onrender.com/admin/userdetail/${user.id}?page=${page}`);
+        return response.json();
+    };
+    const { data, isLoading, error } = useQuery(['userDetail', currentPage], () => fetchTransferData(currentPage));
+    if (data) {
+        console.log('data', data);
+
+    }
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <main className='main-container'>
@@ -31,14 +46,14 @@ const UserDetail = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1132</td>
-                                    <td>Ye Aung</td>
-                                    <td>y@gmail.com</td>
-                                    <td>09794263094</td>
-                                    <td>1,000,000</td>
-                                    <td>Verified</td>
-                                    <td>Male</td>
-                                    <td>01/08/2024</td>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.phone}</td>
+                                    <td>{user.balance}</td>
+                                    <td>{user.status}</td>
+                                    <td>{user.userverify[0]?.gender}</td>
+                                    <td>{user.createdAt}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -53,11 +68,13 @@ const UserDetail = () => {
                                 <th>City</th>
                                 <th>Postal Code</th>
                             </tr>
-                            <tr>
-                                <td>1132</td>
-                                <td>Ye Aung</td>
-                                <td>y@gmail.com</td>
-                            </tr>
+                            {user.userverify.length != 0 && user.userverify.map((data) => (
+                                <tr>
+                                    <td>{data.country}</td>
+                                    <td>{data.city}</td>
+                                    <td>{data.postal_code}</td>
+                                </tr>
+                            ))}
                         </table>
                     </div>
 
@@ -70,12 +87,15 @@ const UserDetail = () => {
                                 <th>Front Photo</th>
                                 <th>Back Photo</th>
                             </tr>
-                            <tr>
-                                <td>ID Card</td>
-                                <td>1/mmn22399</td>
-                                <td>y@gmail.com</td>
-                                <td>09794263094</td>
-                            </tr>
+                            {user.userverify.length != 0 && user.userverify.map((data) => (
+                                <tr>
+                                    <td>{data.id_type}</td>
+                                    <td>{data.id_no}</td>
+                                    <td>{data.front_id_url}</td>
+                                    <td>{data.back_id_url}</td>
+                                </tr>
+                            ))}
+
 
                         </table>
                     </div>
@@ -87,28 +107,31 @@ const UserDetail = () => {
                             <tr>
                                 <th>No.</th>
                                 <th>Transaction ID</th>
-                                <th>Recipient</th>
+                                <th>From</th>
+                                <th>To</th>
                                 <th>Amount</th>
                                 <th>Note</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1132</td>
-                                <td>Ye Aung</td>
-                                <td>y@gmail.com</td>
-                                <td>1,000,000</td>
-                                <td>09794263094</td>
-                                <td>01/08/2024</td>
-                            </tr>
+                            {data.transaction.map((transaction) => (
+                                <tr>
+                                    <td>{transaction.id}</td>
+                                    <td>{transaction.transactionId}</td>
+                                    <td>{transaction.sender.name} ({transaction.sender.phone})</td>
+                                    <td>{transaction.recipient.name} ({transaction.recipient.phone})</td>
+                                    <td>{transaction.amount}</td>
+                                    <td>{transaction.note}</td>
+                                    <td>{transaction.createdAt}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
-                    <Pagination />
-                    {/* <div className="paginate">
-                        <button className="paginate-prevBtn">Prev</button>
-                        <button className="paginate-nextBtn">Next</button>
-                    </div> */}
+                    <div className='paginate'>
+                        <Pagination totalPages={data.totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+                    </div>
+
                 </div>
             </div>
         </main>

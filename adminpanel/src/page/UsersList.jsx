@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom'
@@ -9,16 +9,17 @@ import Pagination from '../component/Pagination';
 const UsersList = () => {
 
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const handleUserDetail = (userId) => {
-        navigate(`/userslist/${userId}`)
+    const handleUserDetail = (user) => {
+        navigate(`/userslist/${user.id}`, { state: { user } })
     }
 
-    const fetchTransferData = async () => {
-        const response = await fetch('http://localhost:3000/admin/user?page=1');
+    const fetchTransferData = async (page) => {
+        const response = await fetch(`https://truepay-api.onrender.com/admin/user?page=${page}`);
         return response.json();
     };
-    const { data, isLoading, error } = useQuery(['transferData'], () => fetchTransferData());
+    const { data, isLoading, error } = useQuery(['transferData', currentPage], () => fetchTransferData(currentPage));
     if (data) {
         console.log('data', data);
 
@@ -58,12 +59,15 @@ const UsersList = () => {
                             <td>{user.phone}</td>
                             <td>{user.balance}</td>
                             <td>{user.status}</td>
-                            <td style={{ cursor: 'pointer' }} onClick={() => handleUserDetail(user.id)}><BsThreeDotsVertical /></td>
+                            <td style={{ cursor: 'pointer' }} onClick={() => handleUserDetail(user)}><BsThreeDotsVertical /></td>
                         </tr>
                     ))}
 
                 </table>
-                <Pagination totalPages={data.totalPages} />
+                <div className='paginate'>
+                    <Pagination totalPages={data.totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+                </div>
+
             </div>
         </main>
     )

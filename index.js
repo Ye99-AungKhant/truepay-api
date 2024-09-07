@@ -24,7 +24,7 @@ app.use('/user', userRouter)
 app.use('/transfer', transferRouter)
 app.use('/admin', adminRouter)
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

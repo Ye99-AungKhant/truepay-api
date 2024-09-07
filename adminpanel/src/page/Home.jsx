@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill }
     from 'react-icons/bs'
+import { useQuery } from 'react-query';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line }
     from 'recharts';
+import Pagination from '../component/Pagination';
 
 const Home = () => {
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const data = [
+    const fetchTransactionData = async (page) => {
+        const response = await fetch(`https://truepay-api.onrender.com/admin`);
+        return response.json();
+    };
+    const { data, isLoading, error } = useQuery(['userDetail', currentPage], () => fetchTransactionData(currentPage));
+    if (data) {
+        console.log('data', data);
+
+    }
+    if (isLoading) return <div>Loading...</div>;
+
+    const chart = [
         {
             name: 'Page A',
             uv: 4000,
@@ -51,7 +65,6 @@ const Home = () => {
         },
     ];
 
-
     return (
         <main className='main-container'>
             <div className='main-title'>
@@ -61,31 +74,31 @@ const Home = () => {
             <div className='main-cards'>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>PRODUCTS</h3>
-                        <BsFillArchiveFill className='card_icon' />
-                    </div>
-                    <h1>300</h1>
-                </div>
-                <div className='card'>
-                    <div className='card-inner'>
-                        <h3>CATEGORIES</h3>
-                        <BsFillGrid3X3GapFill className='card_icon' />
-                    </div>
-                    <h1>12</h1>
-                </div>
-                <div className='card'>
-                    <div className='card-inner'>
-                        <h3>CUSTOMERS</h3>
+                        <h3>Total Users</h3>
                         <BsPeopleFill className='card_icon' />
                     </div>
-                    <h1>33</h1>
+                    <h1>{data.totalUser}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
-                        <h3>ALERTS</h3>
+                        <h3>Pending Users</h3>
+                        <BsFillGrid3X3GapFill className='card_icon' />
+                    </div>
+                    <h1>{data.totalPendingUser}</h1>
+                </div>
+                <div className='card'>
+                    <div className='card-inner'>
+                        <h3>Monthly Transaction Amount</h3>
+                        <BsPeopleFill className='card_icon' />
+                    </div>
+                    <h1>{data.totalTransactionForMonth._sum.amount}</h1>
+                </div>
+                <div className='card'>
+                    <div className='card-inner'>
+                        <h3>Today Transaction</h3>
                         <BsFillBellFill className='card_icon' />
                     </div>
-                    <h1>42</h1>
+                    <h1>{data.totalTodayTransactions}</h1>
                 </div>
             </div>
 
@@ -94,7 +107,7 @@ const Home = () => {
                     <BarChart
                         width={500}
                         height={300}
-                        data={data}
+                        data={data.todayAverageTransactionForChart}
                         margin={{
                             top: 5,
                             right: 30,
@@ -103,7 +116,7 @@ const Home = () => {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey="averageAmount" />
                         <YAxis />
                         <Tooltip />
                         <Legend />
@@ -116,7 +129,7 @@ const Home = () => {
                     <LineChart
                         width={500}
                         height={300}
-                        data={data}
+                        data={chart}
                         margin={{
                             top: 5,
                             right: 30,
@@ -135,7 +148,40 @@ const Home = () => {
                 </ResponsiveContainer>
 
             </div>
+            <div className='userDetail-card userDetail-transaction'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Transaction ID</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Amount</th>
+                            <th>Note</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    {/* <tbody>
+                        {data.transaction.map((transaction) => (
+                            <tr>
+                                <td>{transaction.id}</td>
+                                <td>{transaction.transactionId}</td>
+                                <td>{transaction.sender.name} ({transaction.sender.phone})</td>
+                                <td>{transaction.recipient.name} ({transaction.recipient.phone})</td>
+                                <td>{transaction.amount}</td>
+                                <td>{transaction.note}</td>
+                                <td>{transaction.createdAt}</td>
+                            </tr>
+                        ))}
+                    </tbody> */}
+                </table>
+                <div className='paginate'>
+                    <Pagination totalPages={data.totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+                </div>
+            </div>
+
         </main>
+
     )
 }
 

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import '../App.css'
 
-const Pagination = ({ totalPages }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  // const [totalPages, setTotalPages] = useState(10); // totalPages can be dynamic
+const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    onPageChange(page);
   };
 
   const renderPageNumbers = () => {
     const pages = [];
 
-    if (totalPages <= 1) return pages; // No pagination if there's only 1 page
+    if (totalPages <= 1) return pages;
 
     // Show first 3 pages
     for (let i = 1; i <= 3; i++) {

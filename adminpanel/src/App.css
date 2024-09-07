@@ -198,12 +198,13 @@ tr:nth-child(even) {
   background-color: #263043;
 }
 
-/* .paginate {
+.paginate {
   display: flex;
   justify-content: end;
   padding: 10px;
 }
 
+/* 
 .paginate button {
   border: none;
   padding: 5px 10px;
