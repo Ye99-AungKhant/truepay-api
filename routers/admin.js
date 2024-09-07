@@ -71,7 +71,6 @@ router.get('/', async (req, res) => {
     let monthlyTransactions = [];
     const currentYear = now.getFullYear();
 
-    // Loop through the last 12 months
     for (let i = 0; i < 12; i++) {
         const startOfMonth = new Date(currentYear, i, 1);
         const endOfMonth = new Date(currentYear, i + 1, 0); // last day of the month
@@ -100,7 +99,7 @@ router.get('/', async (req, res) => {
     const totalTodayTransactions = todayTransactions.length
     const totalPendingUser = pendingUser.length
 
-    res.status(200).json({ totalUser, totalTransactionForMonth, totalPendingUser, totalTodayTransactions, todayAverageTransactionForChart, monthlyTransactions })
+    res.status(200).json({ totalUser, totalTransactionForMonth, totalPendingUser, pendingUser, totalTodayTransactions, todayAverageTransactionForChart, monthlyTransactions })
 })
 
 router.get('/transactions', async (req, res) => {

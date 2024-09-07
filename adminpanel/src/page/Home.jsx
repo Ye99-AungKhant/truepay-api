@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill }
+import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill, BsThreeDotsVertical }
     from 'react-icons/bs'
 import { useQuery } from 'react-query';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line }
@@ -158,28 +158,26 @@ const Home = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>Transaction ID</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Amount</th>
-                            <th>Note</th>
-                            <th>Date</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No.</th>
+                            <th>Status</th>
+                            <th>Detail</th>
                         </tr>
                     </thead>
-                    {/* <tbody>
-                        {data.transaction.map((transaction) => (
+                    <tbody>
+                        {data.pendingUser.map((user) => (
                             <tr>
-                                <td>{transaction.id}</td>
-                                <td>{transaction.transactionId}</td>
-                                <td>{transaction.sender.name} ({transaction.sender.phone})</td>
-                                <td>{transaction.recipient.name} ({transaction.recipient.phone})</td>
-                                <td>{transaction.amount}</td>
-                                <td>{transaction.note}</td>
-                                <td>{transaction.createdAt}</td>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phone}</td>
+                                <td>{user.status}</td>
+                                <td style={{ cursor: 'pointer' }} onClick={() => handleUserDetail(user)}><BsThreeDotsVertical /></td>
                             </tr>
                         ))}
-                    </tbody> */}
+                    </tbody>
                 </table>
                 <div className='paginate'>
                     <Pagination totalPages={data.totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
