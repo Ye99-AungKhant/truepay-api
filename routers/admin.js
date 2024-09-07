@@ -69,11 +69,12 @@ router.get('/', async (req, res) => {
     }));
 
     let monthlyTransactions = [];
+    const currentYear = now.getFullYear();
 
     // Loop through the last 12 months
     for (let i = 0; i < 12; i++) {
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const endOfMonth = new Date(now.getFullYear(), now.getMonth() - i + 1, 0); // last day of the month
+        const startOfMonth = new Date(currentYear, i, 1);
+        const endOfMonth = new Date(currentYear, i + 1, 0); // last day of the month
 
         // Get transaction sum for each month
         const totalTransactionForMonth = await prisma.userTransaction.aggregate({
@@ -90,7 +91,7 @@ router.get('/', async (req, res) => {
 
         // Store the result in an array
         monthlyTransactions.push({
-            month: startOfMonth.toLocaleString('default', { month: 'long' }), // Month name
+            month: startOfMonth.toLocaleString('default', { month: 'short' }), // Month name
             year: startOfMonth.getFullYear(),
             totalAmount: totalTransactionForMonth._sum.amount || 0, // Handle null sums
         });

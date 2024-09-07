@@ -66,6 +66,7 @@ const Home = () => {
     ];
 
     const avgTransaction = data.todayAverageTransactionForChart
+    const monthlyTransaction = data.monthlyTransactions
 
     console.log('avgTransaction', avgTransaction);
     console.log('chart', chart);
@@ -123,7 +124,7 @@ const Home = () => {
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="hour" />
-                        <YAxis dataKey="averageAmount" />
+                        <YAxis />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="averageAmount" fill="#8884d8" />
@@ -134,7 +135,7 @@ const Home = () => {
                     <LineChart
                         width={500}
                         height={300}
-                        data={chart}
+                        data={monthlyTransaction}
                         margin={{
                             top: 5,
                             right: 30,
@@ -143,12 +144,12 @@ const Home = () => {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                        <Line type="monotone" dataKey="totalAmount" stroke="#8884d8" activeDot={{ r: 8 }} />
+                        {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
                     </LineChart>
                 </ResponsiveContainer>
 
