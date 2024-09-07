@@ -1,0 +1,34 @@
+.userDetail-container {
+    /* background-color: #263043; */
+}
+
+.userDetail-card {
+    background-color: #263043;
+    margin-bottom: 8px;
+    border-radius: 10px;
+}
+
+.userDetail-header {
+    padding: 10px;
+    display: flex;
+}
+
+.userDetail-header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8%;
+}
+
+.userDetail-header .userDetail-data {
+    margin-left: 10px;
+}
+
+.userDetail-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+}
+
+.userDetail-body div {
+    padding: 10px;
+}
