@@ -65,6 +65,12 @@ const Home = () => {
         },
     ];
 
+    const avgTransaction = data.todayAverageTransactionForChart
+
+    console.log('avgTransaction', avgTransaction);
+    console.log('chart', chart);
+
+
     return (
         <main className='main-container'>
             <div className='main-title'>
@@ -107,7 +113,7 @@ const Home = () => {
                     <BarChart
                         width={500}
                         height={300}
-                        data={data.todayAverageTransactionForChart}
+                        data={avgTransaction}
                         margin={{
                             top: 5,
                             right: 30,
@@ -116,12 +122,11 @@ const Home = () => {
                         }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="averageAmount" />
-                        <YAxis />
+                        <XAxis dataKey="hour" />
+                        <YAxis dataKey="averageAmount" />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="pv" fill="#8884d8" />
-                        <Bar dataKey="uv" fill="#82ca9d" />
+                        <Bar dataKey="averageAmount" fill="#8884d8" />
                     </BarChart>
                 </ResponsiveContainer>
 
