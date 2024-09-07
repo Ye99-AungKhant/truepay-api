@@ -5,9 +5,11 @@ import { useQuery } from 'react-query';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line }
     from 'recharts';
 import Pagination from '../component/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const navigate = useNavigate();
 
     const fetchTransactionData = async (page) => {
         const response = await fetch(`https://truepay-api.onrender.com/admin`);
@@ -68,8 +70,9 @@ const Home = () => {
     const avgTransaction = data.todayAverageTransactionForChart
     const monthlyTransaction = data.monthlyTransactions
 
-    console.log('avgTransaction', avgTransaction);
-    console.log('chart', chart);
+    const handleUserDetail = (user) => {
+        navigate(`/userslist/${user.id}`, { state: { user } })
+    }
 
 
     return (
@@ -173,7 +176,7 @@ const Home = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>
-                                <td>{user.status}</td>
+                                <td><span style={{ backgroundColor: 'yellow', padding: 3, borderRadius: 20, color: 'black' }}>{user.status}</span></td>
                                 <td style={{ cursor: 'pointer' }} onClick={() => handleUserDetail(user)}><BsThreeDotsVertical /></td>
                             </tr>
                         ))}

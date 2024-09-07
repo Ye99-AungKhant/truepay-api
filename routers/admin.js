@@ -41,7 +41,8 @@ router.get('/', async (req, res) => {
         },
     })
     const pendingUser = await prisma.user.findMany({
-        where: { status: 'Pending' }
+        where: { status: 'Pending' },
+        include: { userverify: true }
     })
 
     const todayTransactions = await prisma.userTransaction.findMany({
