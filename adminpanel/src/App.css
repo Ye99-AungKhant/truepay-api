@@ -264,10 +264,12 @@ tr:nth-child(even) {
   border: none;
   background-color: #eee;
   cursor: pointer;
+  color: black;
 }
 
 .pagination .active {
   background-color: #f03333;
+  color: white;
 }
 
 /* End Main  */

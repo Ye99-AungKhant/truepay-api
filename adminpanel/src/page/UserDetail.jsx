@@ -4,12 +4,21 @@ import defaultUser from '../image/user.png'
 import Pagination from '../component/Pagination'
 import { useMutation, useQuery } from "react-query";
 import { useLocation } from 'react-router-dom';
+import Modal from '../component/Modal';
 
 const UserDetail = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
     const { user } = location.state || {};
-    console.log('user', user);
+    const [userStatus, setUserStatus] = useState(user.status)
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [idImgUrl, setIdImgUrl] = useState('')
+
+    const openModal = (IDImgUrl) => {
+        setIdImgUrl(IDImgUrl)
+        setModalOpen(true);
+    }
+    const closeModal = () => setModalOpen(false);
 
     const fetchTransferData = async (page) => {
         const response = await fetch(`https://truepay-api.onrender.com/admin/userdetail/${user.id}?page=${page}`);
@@ -29,7 +38,12 @@ const UserDetail = () => {
         onError: async (e) => {
             console.log(e);
         },
-        onSuccess: async (data) => { }
+        onSuccess: async (data) => {
+            const verifyData = await data.json()
+            console.log('userdata res', verifyData);
+
+            setUserStatus(verifyData.status)
+        }
     })
 
     if (isLoading) return <div>Loading...</div>;
@@ -37,6 +51,11 @@ const UserDetail = () => {
 
     const handleUserConfirm = () => {
         userVerify.mutate(user.id)
+    }
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-GB', { timeZone: 'UTC' });
     }
 
     return (
@@ -68,17 +87,20 @@ const UserDetail = () => {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.balance}</td>
-                                    <td>{user.status}</td>
+                                    <td>{userStatus}</td>
                                     <td>{user.userverify[0]?.gender}</td>
-                                    <td>{user.createdAt}</td>
+                                    <td>{formatDate(user.createdAt)}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <button style={{ border: 'none', backgroundColor: 'green', color: 'white', borderRadius: 10, cursor: 'pointer' }}
-                            onClick={handleUserConfirm}
-                        >
-                            Confirm
-                        </button>
+                        {userStatus == 'Pending' &&
+                            <button style={{ border: 'none', backgroundColor: 'green', color: 'white', borderRadius: 10, cursor: 'pointer' }}
+                                onClick={handleUserConfirm}
+                            >
+                                Confirm
+                            </button>
+                        }
+
                     </div>
                 </div>
                 <div className="userDetail-body ">
@@ -113,8 +135,8 @@ const UserDetail = () => {
                                 <tr>
                                     <td>{data.id_type}</td>
                                     <td>{data.id_no}</td>
-                                    <td>{data.front_id_url}</td>
-                                    <td>{data.back_id_url}</td>
+                                    <td onClick={() => openModal(data.front_id_url)} className='idImgBtn'>View</td>
+                                    <td onClick={() => openModal(data.back_id_url)} className='idImgBtn'>View</td>
                                 </tr>
                             ))}
 
@@ -145,7 +167,7 @@ const UserDetail = () => {
                                     <td>{transaction.recipient.name} ({transaction.recipient.phone})</td>
                                     <td>{transaction.amount}</td>
                                     <td>{transaction.note}</td>
-                                    <td>{transaction.createdAt}</td>
+                                    <td>{formatDate(transaction.createdAt)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -156,6 +178,7 @@ const UserDetail = () => {
 
                 </div>
             </div>
+            <Modal isOpen={isModalOpen} onClose={closeModal} idImgUrl={idImgUrl} />
         </main>
     )
 }

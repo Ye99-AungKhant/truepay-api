@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import prisma from "../libs/prisma.js";
 
 const router = express.Router()
-const perPage = 1
+const perPage = 10
 
 router.get('/user', async (req, res) => {
     const currentPage = Math.max(Number(req.query.page) || 1, 1)

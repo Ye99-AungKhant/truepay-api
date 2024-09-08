@@ -48,7 +48,7 @@ const UsersList = () => {
                         <tr key={user.id}>
                             <td>
                                 {user.profile_url ?
-                                    <img src={user.profile_url} alt="profile" />
+                                    <img src={user.profile_url} alt="profile" className='profileImg' />
                                     :
                                     <img src={defaultUser} alt="profile" className='profileImg' />
                                 }

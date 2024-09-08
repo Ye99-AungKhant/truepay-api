@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill, BsThreeDotsVertical }
+import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill, BsThreeDotsVertical, BsGraphUpArrow }
     from 'react-icons/bs'
 import { useQuery } from 'react-query';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line }
@@ -47,21 +47,21 @@ const Home = () => {
                 <div className='card'>
                     <div className='card-inner'>
                         <h3>Pending Users</h3>
-                        <BsFillGrid3X3GapFill className='card_icon' />
+                        <BsPeopleFill className='card_icon' />
                     </div>
                     <h1>{data.totalPendingUser}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
                         <h3>Monthly Transaction Amount</h3>
-                        <BsPeopleFill className='card_icon' />
+                        <BsGraphUpArrow className='card_icon' />
                     </div>
                     <h1>{data.totalTransactionForMonth._sum.amount}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
                         <h3>Today Transaction</h3>
-                        <BsFillBellFill className='card_icon' />
+                        <BsGraphUpArrow className='card_icon' />
                     </div>
                     <h1>{data.totalTodayTransactions}</h1>
                 </div>

@@ -1,7 +1,8 @@
 import React from 'react'
 import {
     BsCart3, BsGrid1X2Fill, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill,
-    BsListCheck, BsMenuButtonWideFill, BsFillGearFill
+    BsListCheck, BsMenuButtonWideFill, BsFillGearFill,
+    BsGraphUpArrow
 }
     from 'react-icons/bs'
 import { Link } from 'react-router-dom'
@@ -28,9 +29,9 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
                     </Link>
                 </li>
                 <li className='sidebar-list-item'>
-                    <a href="">
-                        <BsFillGearFill className='icon' /> Setting
-                    </a>
+                    <Link to={'transaction'}>
+                        <BsGraphUpArrow className='icon' /> Transactions
+                    </Link>
                 </li>
             </ul>
         </aside>

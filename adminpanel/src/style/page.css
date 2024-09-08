@@ -32,3 +32,11 @@
 .userDetail-body div {
     padding: 10px;
 }
+
+.idImgBtn {
+    cursor: pointer;
+}
+
+.idImgBtn:hover {
+    color: red;
+}
