@@ -178,7 +178,7 @@ router.get('/userdetail/:userId', async (req, res) => {
 router.patch('/userVerify', async (req, res) => {
     console.log('userVerify', req.body);
 
-    const userId = req.body
+    const { userId } = req.body
     const user = await prisma.user.update({
         where: { id: userId },
         data: { status: 'Verified' }

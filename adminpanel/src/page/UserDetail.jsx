@@ -18,7 +18,7 @@ const UserDetail = () => {
     const { data, isLoading, error } = useQuery(['userDetail', currentPage], () => fetchTransferData(currentPage));
 
     const userVerify = useMutation(async (userId) => {
-        return await fetch(`http://localhost:3001/admin/userVerify`, {
+        return await fetch(`https://truepay-api.onrender.com/admin/userVerify`, {
             method: "PATCH",
             headers: {
                 "Content-Type": 'application/json',
