@@ -16,19 +16,14 @@ const UserDetail = () => {
         return response.json();
     };
     const { data, isLoading, error } = useQuery(['userDetail', currentPage], () => fetchTransferData(currentPage));
-    if (data) {
-        console.log('data', data);
 
-    }
-    if (isLoading) return <div>Loading...</div>;
-
-    const userVerify = useMutation(async (data) => {
-        return await fetch(`https://truepay-api.onrender.com/admin/userverified`, {
+    const userVerify = useMutation(async (userId) => {
+        return await fetch(`http://localhost:3001/admin/userVerify`, {
             method: "PATCH",
             headers: {
                 "Content-Type": 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify({ userId }),
         })
     }, {
         onError: async (e) => {
@@ -36,8 +31,12 @@ const UserDetail = () => {
         },
         onSuccess: async (data) => { }
     })
+
+    if (isLoading) return <div>Loading...</div>;
+
+
     const handleUserConfirm = () => {
-        userVerify(user.id)
+        userVerify.mutate(user.id)
     }
 
     return (
