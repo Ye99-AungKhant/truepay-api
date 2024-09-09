@@ -112,6 +112,10 @@ const Home = () => {
                 </ResponsiveContainer>
 
             </div>
+            <div style={{ display: 'flex', justifyContent: "space-around" }}>
+                <h5>Daily Transaction Amount</h5>
+                <h5>Monthly Transaction Amount</h5>
+            </div>
             <div className='userDetail-card userDetail-transaction'>
                 <table>
                     <thead>

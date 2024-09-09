@@ -50,7 +50,7 @@ const UsersList = () => {
                                 {user.profile_url ?
                                     <img src={user.profile_url} alt="profile" className='profileImg' />
                                     :
-                                    <img src={defaultUser} alt="profile" className='profileImg' />
+                                    ''
                                 }
                             </td>
                             <td>{user.id}</td>

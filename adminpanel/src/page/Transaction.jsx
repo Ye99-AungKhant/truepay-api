@@ -20,6 +20,9 @@ const Transaction = () => {
 
     return (
         <div className='main-container'>
+            <div className='main-title'>
+                <h3>Transaction</h3>
+            </div>
             <div className='userDetail-container userDetail-card'>
                 <table>
                     <thead>

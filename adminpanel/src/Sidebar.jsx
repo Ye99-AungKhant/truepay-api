@@ -11,7 +11,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
     return (
         <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive" : ""}>
             <div className='sidebar-title'>
-                <div className='sidebar-brand'>
+                <div className='sidebar-brand' style={{ color: 'white' }}>
                     True Pay DashBoard
                 </div>
                 <span className='icon close_icon' onClick={OpenSidebar}>X</span>
