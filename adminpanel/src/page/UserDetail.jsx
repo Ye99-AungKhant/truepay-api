@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../style/page.css'
 import defaultUser from '../image/user.png'
 import Pagination from '../component/Pagination'
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useLocation } from 'react-router-dom';
 import Modal from '../component/Modal';
 
@@ -11,8 +11,11 @@ const UserDetail = () => {
     const location = useLocation();
     const { user } = location.state || {};
     const [userStatus, setUserStatus] = useState(user.status)
+    const [userBalance, setUserBalance] = useState(user.balance)
     const [isModalOpen, setModalOpen] = useState(false);
     const [idImgUrl, setIdImgUrl] = useState('')
+    const [editing,setEditing] = useState(false)
+    const queryClient = useQueryClient();
 
     const openModal = (IDImgUrl) => {
         setIdImgUrl(IDImgUrl)
@@ -57,6 +60,19 @@ const UserDetail = () => {
         const date = new Date(dateString);
         return date.toLocaleString('en-GB', { timeZone: 'UTC' });
     }
+
+    const handleDeposit=(e)=>{
+        e.preventDefault()
+        fetch(`https://truepay-api.onrender.com/admin/deposit`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": 'application/json',
+            },
+            body: JSON.stringify({ userId:user.id, depositAmount:editing }),
+        })
+        setEditing(false)
+        queryClient.invalidateQueries(['userDetail'])
+      }
 
     return (
         <main className='main-container'>
@@ -104,6 +120,14 @@ const UserDetail = () => {
                     </div>
                 </div>
                 <div className="userDetail-body ">
+                    <div className='userDetail-card' style={{ width:'200px' }}>
+                        <caption>Deposit</caption>
+                        {!editing && <div onDoubleClick={()=>setEditing(true)}>{userBalance}</div>}
+                                    {editing && <form action="" onSubmit={handleDeposit} onDoubleClick={()=>setEditing(false)}> 
+                                        <input type="text" className="todo-item-input" value={userBalance} onChange={(e)=>setUserBalance(e.target.value)} />
+                                    </form> }
+                    </div>
+
                     <div className='userDetail-card'>
                         <table>
                             <caption>Address</caption>

@@ -186,5 +186,22 @@ router.patch('/userVerify', async (req, res) => {
     res.status(200).json(user)
 })
 
+router.patch('/deposit', async (req, res) => {
+    console.log('deposit', req.body);
+
+    const { userId,depositAmount } = req.body
+    const checkuser = await  prisma.user.findFirst({
+        where: { id: userId },
+        select: { id: true, balance: true }
+    })
+    let totalBalance = checkuser.balance + Number(depositAmount)
+
+    const user = await prisma.user.update({
+        where: { id: userId },
+        data: { balance: totalBalance }
+    })
+    res.status(200).json(user)
+})
+
 
 export { router as adminRouter };
